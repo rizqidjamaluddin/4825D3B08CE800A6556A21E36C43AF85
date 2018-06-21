@@ -51,9 +51,13 @@ const colors = {
   white: '#ffffff',
 
   red: '#ba4f45',
+  pink: '#d49193',
   blue: '#7065bb',
+  aqua: '#6cafd3',
   purple: '#b65090',
+  violet: '#b899c9',
   green: '#56ae6c',
+  teal: '#6ab2a4',
 };
 
 module.exports = {
@@ -826,10 +830,10 @@ module.exports = {
   */
 
   plugins: [
-    require('tailwindcss/plugins/container')({
-      // center: true,
-      // padding: '1rem',
-    }),
+    // require('tailwindcss/plugins/container')({
+    //   // center: true,
+    //   // padding: '1rem',
+    // }),
   ],
 
 
