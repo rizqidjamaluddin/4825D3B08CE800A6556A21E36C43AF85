@@ -9,10 +9,10 @@
 
 - [x] Load data from source server
 - [x] Display as table
-- [ ] Paginate data table
+- [x] Paginate data table
 - [x] Load indicator
-- [ ] Sorting by job title, description
-- [ ] Searching by job title, description
+- [x] Sorting by job title, description
+- [x] Searching by job title, description
 
 ## 0.1 - Statefulness
 
@@ -28,9 +28,13 @@
 - [ ] Add icons and labels/tags for other flags provided from API data
 - [ ] Enable search by job ID
 - [ ] Enable sort by company, newest/oldest
+- [ ] Enable hop to page by clicking current page button
+- [ ] Enhance paginator slide animation when scrolling pages
+- [ ] Add progress indicator bar on paginator
 - [ ] Flag as liked, filter by liked
 
 ## 0.3 - Reusability
 
 - [ ] Abstract out loading/error components in job grid
 - [ ] Convert job grid loop to a functional component
+- [ ] Consider using Vuex as primary data store
