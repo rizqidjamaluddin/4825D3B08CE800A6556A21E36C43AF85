@@ -172,6 +172,9 @@ export default class JobBrowser extends Vue {
       if (this.page > this.pages) {
         this.page = this.pages;
       }
+      if (this.page < 1) {
+        this.page = 1;
+      }
     }
 }
 </script>
