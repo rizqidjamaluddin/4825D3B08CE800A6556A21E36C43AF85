@@ -12,7 +12,7 @@
 - [x] Paginate data table
 - [x] Load indicator
 - [x] Sorting by job title, description
-- [x] Searching by job title, description
+- [ ] Searching by job title, description
 
 ## 0.1 - Statefulness
 

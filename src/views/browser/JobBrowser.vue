@@ -1,7 +1,7 @@
 <template>
   <div class="job-browser mx-auto">
 
-    <BrowserPaginator :page.sync="page" :pages="pages"></BrowserPaginator>
+    <BrowserSorter v-if="jobs.length > 0" v-model="sort"></BrowserSorter>
 
     <div class="job-grid border border-ash my-8 w-full">
       <div class="job-grid__loading text-center" v-if="!loadError && jobs.length === 0">
@@ -40,38 +40,52 @@
       </div>
     </div>
 
-    <BrowserPaginator :page.sync="page" :pages="pages"></BrowserPaginator>
-    <!--<BrowserPaginator v-model="page" :pages="pages"></BrowserPaginator>-->
+    <BrowserPaginator v-if="jobs.length > 0" v-model="page" :pages="pages"></BrowserPaginator>
 
   </div>
 </template>
 
 <script lang="ts">
-  import {Component, Vue} from 'vue-property-decorator';
-  import {EntityBuilder} from '@decahedron/entity';
-  import axios from 'axios';
-  import Job from '../../entities/job';
-  import LoadIndicator from './support/LoadIndicator.vue';
-  import BrowserPaginator from './BrowserPaginator.vue';
+import { Component, Vue, Watch } from 'vue-property-decorator';
+import { EntityBuilder } from '@decahedron/entity';
+import axios from 'axios';
+import Job from '../../entities/job';
+import LoadIndicator from './support/LoadIndicator.vue';
+import BrowserPaginator from './BrowserPaginator.vue';
+import BrowserSorter, { SortOrder } from './BrowserSorter.vue';
 
-  const sourceUrl = 'https://paikat.te-palvelut.fi/tpt-api/tyopaikat?englanti=true';
+const sourceUrl = 'https://paikat.te-palvelut.fi/tpt-api/tyopaikat?englanti=true';
 
-  @Component({
-    components: {
-      LoadIndicator,
-      BrowserPaginator
-    },
+@Component({
+  components: {
+  LoadIndicator,
+  BrowserPaginator,
+  BrowserSorter,
+  },
   })
-  export default class JobBrowser extends Vue {
+export default class JobBrowser extends Vue {
     jobs: Job[] = [];
     loadError = false;
 
-    private perPage = 10;
+    perPage = 10;
 
-    private page = 1;
+    page = 1;
+    sort: SortOrder = {
+      by: 'title',
+      asc: true,
+    };
+
+    get sortedJobs() {
+      const jobCopy = this.jobs.slice(0);
+      const sortDirectionModifier = this.sort.asc ? 1 : -1;
+      jobCopy.sort((a: Job, b: Job) =>
+        a[this.sort.by].localeCompare(b[this.sort.by]) * sortDirectionModifier);
+      return jobCopy;
+    }
 
     get displayedJobs(): Job[] {
-      return this.jobs.slice((this.page-1) * this.perPage, ((this.page-1) * this.perPage) + this.perPage);
+      const start = (this.page - 1) * this.perPage;
+      return this.sortedJobs.slice(start, (start) + this.perPage);
     }
 
     get pages(): number {
@@ -93,8 +107,7 @@
           this.loadError = true;
         });
     }
-
-  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -24,36 +24,36 @@
 </template>
 
 <script lang="ts">
-  import {Component, Vue, Prop} from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 
-  export interface SortOrder {
+export interface SortOrder {
     by: 'title'|'company'
     asc: boolean
   }
 
-  @Component({
-    model: {
-      prop: 'sort',
-      event: 'update:sort'
-    },
+@Component({
+  model: {
+  prop: 'sort',
+  event: 'update:sort'
+  },
   })
-  export default class BrowserSorter extends Vue {
+export default class BrowserSorter extends Vue {
     @Prop() sort: SortOrder;
 
     sortBy(by: string) {
       if (this.sort.by === by) {
         this.$emit('update:sort', {
-          by: by,
+          by,
           asc: !this.sort.asc,
         });
       } else {
         this.$emit('update:sort', {
-          by: by,
+          by,
           asc: this.sort.asc,
         });
       }
     }
-  }
+}
 </script>
 
 <style lang="scss" scoped>
