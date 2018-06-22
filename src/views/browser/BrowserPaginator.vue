@@ -4,14 +4,16 @@
     <div class="paginator__option" v-show="!showFirstGap"></div>
 
     <!-- First page, only shown when != previous page -->
-    <div class="paginator__option paginator__option--clickable" v-show="showFirst" @click="navigate(1)">1</div>
+    <div class="paginator__option paginator__option--clickable" role="button"
+         v-show="showFirst" @click="navigate(1)">1</div>
     <div class="paginator__option" v-show="!showFirst"></div>
 
     <!-- Gap between first page and previous -->
     <div class="paginator__option" v-show="showFirstGap">...</div>
 
     <!-- Previous page -->
-    <div class="paginator__option paginator__option--clickable" v-show="showPrevious" @click="navigate(page-1)">
+    <div class="paginator__option paginator__option--clickable" role="button"
+         v-show="showPrevious" @click="navigate(page-1)">
       {{ page - 1 }}
     </div>
     <div class="paginator__option" v-show="!showPrevious"></div>
@@ -20,7 +22,8 @@
     <div class="paginator__option paginator__option--current">{{ page }}</div>
 
     <!-- Next page -->
-    <div class="paginator__option paginator__option--clickable" v-show="showNext" @click="navigate(page+1)">
+    <div class="paginator__option paginator__option--clickable" role="button"
+         v-show="showNext" @click="navigate(page+1)">
       {{ page + 1 }}
     </div>
     <div class="paginator__option" v-show="!showNext"></div>
@@ -29,7 +32,8 @@
     <div class="paginator__option" v-show="showLastGap">...</div>
 
     <!-- Last page, only shown when != next page -->
-    <div class="paginator__option paginator__option--clickable" v-show="showLast" @click="navigate(pages)">{{ pages }}</div>
+    <div class="paginator__option paginator__option--clickable" role="button"
+         v-show="showLast" @click="navigate(pages)">{{ pages }}</div>
     <div class="paginator__option" v-show="!showLast"></div>
 
     <!-- Padding for last gap to ensure centered selection  -->
@@ -39,11 +43,15 @@
 </template>
 
 <script lang="ts">
-  import {Component, Vue, Prop} from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 
-  @Component({
+@Component({
+  model: {
+  prop: 'page',
+  event: 'update:page'
+  },
   })
-  export default class BrowserPaginator extends Vue {
+export default class BrowserPaginator extends Vue {
     @Prop() pages: number;
     @Prop() page: number;
 
@@ -77,7 +85,7 @@
         this.$emit('update:page', page);
       }
     }
-  }
+}
 </script>
 
 <style lang="scss">
