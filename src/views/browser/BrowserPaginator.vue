@@ -1,24 +1,40 @@
 <template>
   <div class="paginator flex mx-auto mt-8 justify-center">
+    <!-- Padding for first gap to ensure centered selection -->
+    <div class="paginator__option" v-show="!showFirstGap"></div>
+
+    <!-- First page, only shown when != previous page -->
     <div class="paginator__option paginator__option--clickable" v-show="showFirst" @click="navigate(1)">1</div>
     <div class="paginator__option" v-show="!showFirst"></div>
 
+    <!-- Gap between first page and previous -->
     <div class="paginator__option" v-show="showFirstGap">...</div>
 
+    <!-- Previous page -->
     <div class="paginator__option paginator__option--clickable" v-show="showPrevious" @click="navigate(page-1)">
       {{ page - 1 }}
     </div>
+    <div class="paginator__option" v-show="!showPrevious"></div>
 
+    <!-- Current page -->
     <div class="paginator__option paginator__option--current">{{ page }}</div>
 
+    <!-- Next page -->
     <div class="paginator__option paginator__option--clickable" v-show="showNext" @click="navigate(page+1)">
       {{ page + 1 }}
     </div>
+    <div class="paginator__option" v-show="!showNext"></div>
 
+    <!-- Gap between next page and last -->
     <div class="paginator__option" v-show="showLastGap">...</div>
 
+    <!-- Last page, only shown when != next page -->
     <div class="paginator__option paginator__option--clickable" v-show="showLast" @click="navigate(pages)">{{ pages }}</div>
     <div class="paginator__option" v-show="!showLast"></div>
+
+    <!-- Padding for last gap to ensure centered selection  -->
+    <div class="paginator__option" v-show="!showLastGap"></div>
+
   </div>
 </template>
 
@@ -86,7 +102,9 @@
   @tailwind utilities;
 
   .paginator__option {
-    @apply .px-4 .py-2 .mx-2 .font-bold .text-grey;
+    @apply .inline-block .py-2 .mx-2 .font-bold .text-grey;
+    width: 40px;
+    text-align: center;
   }
 
   .paginator__option--current {
