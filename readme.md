@@ -27,7 +27,7 @@
 - [ ] Add enhanced search UI to display matching terms inline
 - [ ] Add icons and labels/tags for other flags provided from API data
 - [ ] Enable search by job ID
-- [ ] Enable sort by company, newest/oldest
+- [x] Enable sort by company, newest/oldest
 - [ ] Enable hop to page by clicking current page button
 - [ ] Enhance paginator slide animation when scrolling pages
 - [ ] Add progress indicator bar on paginator

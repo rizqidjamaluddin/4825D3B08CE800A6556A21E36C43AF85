@@ -77,9 +77,16 @@ export default class JobBrowser extends Vue {
 
     get sortedJobs() {
       const jobCopy = this.jobs.slice(0);
-      const sortDirectionModifier = this.sort.asc ? 1 : -1;
-      jobCopy.sort((a: Job, b: Job) =>
-        a[this.sort.by].localeCompare(b[this.sort.by]) * sortDirectionModifier);
+      const direction = this.sort.asc ? 1 : -1;
+      jobCopy.sort((a: Job, b: Job) => {
+        if (this.sort.by === 'createdAt') {
+          if (!a.createdAt || !b.createdAt) {
+            return 0;
+          }
+          return (b.createdAt.valueOf() - a.createdAt.valueOf()) * direction;
+        }
+        return a[this.sort.by].localeCompare(b[this.sort.by]) * direction;
+      });
       return jobCopy;
     }
 
