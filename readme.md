@@ -7,10 +7,10 @@
 
 ## MVP 
 
-- [ ] Load data from source server
-- [ ] Display as table
+- [x] Load data from source server
+- [x] Display as table
 - [ ] Paginate data table
-- [ ] Load indicator
+- [x] Load indicator
 - [ ] Sorting by job title, description
 - [ ] Searching by job title, description
 
@@ -29,3 +29,8 @@
 - [ ] Enable search by job ID
 - [ ] Enable sort by company, newest/oldest
 - [ ] Flag as liked, filter by liked
+
+## 0.3 - Reusability
+
+- [ ] Abstract out loading/error components in job grid
+- [ ] Convert job grid loop to a functional component

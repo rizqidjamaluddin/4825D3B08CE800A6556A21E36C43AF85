@@ -46,8 +46,11 @@ View the full documentation at https://tailwindcss.com.
 const colors = {
   transparent: 'transparent',
 
+  solid: '#040506',
   black: '#22292f',
   grey: '#77817b',
+  ash: '#d2d8dc',
+  soft: '#f0f6fa',
   white: '#ffffff',
 
   red: '#ba4f45',
@@ -125,16 +128,7 @@ module.exports = {
 
   fonts: {
     sans: [
-      'system-ui',
-      'BlinkMacSystemFont',
-      '-apple-system',
-      'Segoe UI',
-      'Roboto',
-      'Oxygen',
-      'Ubuntu',
-      'Cantarell',
-      'Fira Sans',
-      'Droid Sans',
+      'Open Sans',
       'Helvetica Neue',
       'sans-serif',
     ],
