@@ -1,13 +1,9 @@
 <template>
   <div class="job-browser mx-auto">
 
-    <div class="flex content-center justify-between">
-      <div>
+    <div class="md:flex ml-8 md:ml-0 content-center justify-between">
         <BrowserSorter v-if="jobs.length > 0" v-model="sort"></BrowserSorter>
-      </div>
-      <div>
         <BrowserSearch v-if="jobs.length > 0" v-model="search"></BrowserSearch>
-      </div>
     </div>
 
     <div class="job-grid border border-ash my-8 w-full">
