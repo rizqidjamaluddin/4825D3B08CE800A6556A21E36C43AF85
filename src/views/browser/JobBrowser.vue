@@ -1,8 +1,13 @@
 <template>
   <div class="job-browser mx-auto">
-    <div class="job-grid border border-ash w-full">
+
+    <BrowserPaginator :page.sync="page" :pages="pages"></BrowserPaginator>
+
+    <div class="job-grid border border-ash my-8 w-full">
       <div class="job-grid__loading text-center" v-if="!loadError && jobs.length === 0">
-        <div><LoadIndicator></LoadIndicator></div>
+        <div>
+          <LoadIndicator></LoadIndicator>
+        </div>
         <div>
           <p class="italic text-gray">Pulling down jobs...</p>
         </div>
@@ -27,30 +32,51 @@
         <div class="px-2 pb-4">
           <p class="pt-2 text-sm text-black">
             <span class="mr-2">{{ job.company }}</span>
-            <span class="text-xs text-grey uppercase">{{ job.createdAt.format('D MMM YY') }}</span>
+            <span class="text-xs text-grey tracking-tight uppercase">
+              {{ job.createdAt.format('D MMM YY') }}
+            </span>
           </p>
         </div>
       </div>
     </div>
+
+    <BrowserPaginator :page.sync="page" :pages="pages"></BrowserPaginator>
+    <!--<BrowserPaginator v-model="page" :pages="pages"></BrowserPaginator>-->
+
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { EntityBuilder } from '@decahedron/entity';
-import axios from 'axios';
-import Job from '../../entities/job';
-import LoadIndicator from './support/LoadIndicator.vue';
+  import {Component, Vue} from 'vue-property-decorator';
+  import {EntityBuilder} from '@decahedron/entity';
+  import axios from 'axios';
+  import Job from '../../entities/job';
+  import LoadIndicator from './support/LoadIndicator.vue';
+  import BrowserPaginator from './BrowserPaginator.vue';
 
-const sourceUrl = 'https://paikat.te-palvelut.fi/tpt-api/tyopaikat?englanti=true';
+  const sourceUrl = 'https://paikat.te-palvelut.fi/tpt-api/tyopaikat?englanti=true';
 
-@Component({
-  components: {LoadIndicator}
+  @Component({
+    components: {
+      LoadIndicator,
+      BrowserPaginator
+    },
   })
-export default class JobBrowser extends Vue {
-    private jobs: Job[] = [];
-    private displayedJobs: Job[] = [];
-    private loadError = false;
+  export default class JobBrowser extends Vue {
+    jobs: Job[] = [];
+    loadError = false;
+
+    private perPage = 10;
+
+    private page = 1;
+
+    get displayedJobs(): Job[] {
+      return this.jobs.slice((this.page-1) * this.perPage, ((this.page-1) * this.perPage) + this.perPage);
+    }
+
+    get pages(): number {
+      return Math.ceil(this.jobs.length / this.perPage);
+    }
 
     created() {
       this.fetch();
@@ -61,14 +87,14 @@ export default class JobBrowser extends Vue {
       axios.get(sourceUrl)
         .then((response) => {
           this.jobs = EntityBuilder.buildMany<Job>(Job, response.data.response.docs);
-          this.displayedJobs = this.jobs.slice(0, 10);
         })
         .catch((response) => {
           console.log(response);
           this.loadError = true;
         });
     }
-}
+
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -97,7 +123,7 @@ export default class JobBrowser extends Vue {
   }
 
   .job-grid__item:last-of-type {
-      border-bottom: none;
+    border-bottom: none;
   }
 
   .job-grid__item {

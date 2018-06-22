@@ -1,5 +1,5 @@
 <template>
-  <div class="paginator flex mx-auto mt-8 justify-center">
+  <div class="paginator flex mx-auto justify-center">
     <!-- Padding for first gap to ensure centered selection -->
     <div class="paginator__option" v-show="!showFirstGap"></div>
 
@@ -42,28 +42,11 @@
   import {Component, Vue, Prop} from 'vue-property-decorator';
 
   @Component({
-    model: {
-      prop: 'initialPage',
-      event: 'update:page',
-    }, data: {
-      showFirst: false,
-      showLast: false,
-      showFirstGap: false,
-      showLastGap: false,
-      showPrevious: false,
-      showNext: false,
-    }
   })
   export default class BrowserPaginator extends Vue {
-    @Prop() initialPage: number;
     @Prop() pages: number;
-    private page = 1;
+    @Prop() page: number;
 
-    data() {
-      return {
-        page: this.initialPage,
-      };
-    }
 
     get showFirst() {
       return this.page > 2;
@@ -91,7 +74,6 @@
 
     navigate(page: number) {
       if (page > 0 && page <= this.pages) {
-        this.page = page;
         this.$emit('update:page', page);
       }
     }
@@ -117,6 +99,10 @@
 
     &:hover {
       @apply .bg-green .text-white;
+    }
+
+    &:active {
+      @apply .bg-blue;
     }
   }
 </style>
