@@ -37,4 +37,5 @@
 
 - [ ] Abstract out loading/error components in job grid
 - [ ] Convert job grid loop to a functional component
+- [ ] Abstract grid sorting and searching to services
 - [ ] Consider using Vuex as primary data store

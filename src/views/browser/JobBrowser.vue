@@ -91,18 +91,26 @@ export default class JobBrowser extends Vue {
       asc: true,
     };
 
+  /**
+   * Filter full job corpus to those matching the current query.
+   * First step of the filtering process.
+   * @returns {Job[]}
+   */
     get filteredJobs() {
       if (this.search) {
         const term = this.search.toLowerCase();
-        return this.jobs.filter((job: Job) => {
-          return job.title.toLowerCase().indexOf(term) !== -1 ||
+        return this.jobs.filter((job: Job) => job.title.toLowerCase().indexOf(term) !== -1 ||
               job.company.toLowerCase().indexOf(term) !== -1 ||
-              job.description.toLowerCase().indexOf(term) !== -1
-        });
+              job.description.toLowerCase().indexOf(term) !== -1);
       }
       return this.jobs;
     }
 
+  /**
+   * Rearrange search-filtered jobs to sorting rules..
+   * Second, and final step of the filtering process.
+   * @returns {Job[]}
+   */
     get sortedJobs() {
       const jobCopy = this.filteredJobs.slice(0);
       const direction = this.sort.asc ? 1 : -1;
@@ -118,11 +126,19 @@ export default class JobBrowser extends Vue {
       return jobCopy;
     }
 
+  /**
+   * Extract current page of jobs from filtered & sorted jobs.
+   * @returns {Job[]}
+   */
     get displayedJobs(): Job[] {
       const start = (this.page - 1) * this.perPage;
       return this.sortedJobs.slice(start, (start) + this.perPage);
     }
 
+  /**
+   * Total number of pages, after searching.
+   * @returns {number}
+   */
     get pages(): number {
       return Math.ceil(this.sortedJobs.length / this.perPage);
     }
@@ -131,6 +147,9 @@ export default class JobBrowser extends Vue {
       this.fetch();
     }
 
+  /**
+   * Pull down job data from source server.
+   */
     fetch() {
       this.loadError = false;
       this.loading = true;
@@ -145,6 +164,9 @@ export default class JobBrowser extends Vue {
         });
     }
 
+  /**
+   * Ensure active page is within valid page range.
+   */
     @Watch('sortedJobs')
     adjustPagination() {
       if (this.page > this.pages) {
