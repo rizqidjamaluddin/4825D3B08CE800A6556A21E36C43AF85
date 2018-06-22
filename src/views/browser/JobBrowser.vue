@@ -1,10 +1,17 @@
 <template>
   <div class="job-browser mx-auto">
 
-    <BrowserSorter v-if="jobs.length > 0" v-model="sort"></BrowserSorter>
+    <div class="flex content-center justify-between">
+      <div>
+        <BrowserSorter v-if="jobs.length > 0" v-model="sort"></BrowserSorter>
+      </div>
+      <div>
+        <BrowserSearch v-if="jobs.length > 0" v-model="search"></BrowserSearch>
+      </div>
+    </div>
 
     <div class="job-grid border border-ash my-8 w-full">
-      <div class="job-grid__loading text-center" v-if="!loadError && jobs.length === 0">
+      <div class="job-grid__loading text-center" v-if="loading">
         <div>
           <LoadIndicator></LoadIndicator>
         </div>
@@ -20,6 +27,11 @@
               Try again
             </a>
           </p>
+        </div>
+      </div>
+      <div class="text-center" v-if="!loading && sortedJobs.length === 0">
+        <div>
+          <p class="m-8">No results found.</p>
         </div>
       </div>
 
@@ -52,6 +64,7 @@ import axios from 'axios';
 import Job from '../../entities/job';
 import LoadIndicator from './support/LoadIndicator.vue';
 import BrowserPaginator from './BrowserPaginator.vue';
+import BrowserSearch from './BrowserSearch.vue';
 import BrowserSorter, { SortOrder } from './BrowserSorter.vue';
 
 const sourceUrl = 'https://paikat.te-palvelut.fi/tpt-api/tyopaikat?englanti=true';
@@ -61,22 +74,37 @@ const sourceUrl = 'https://paikat.te-palvelut.fi/tpt-api/tyopaikat?englanti=true
   LoadIndicator,
   BrowserPaginator,
   BrowserSorter,
+  BrowserSearch,
   },
   })
 export default class JobBrowser extends Vue {
     jobs: Job[] = [];
     loadError = false;
+    loading = false;
 
     perPage = 10;
 
     page = 1;
+    search = '';
     sort: SortOrder = {
       by: 'title',
       asc: true,
     };
 
+    get filteredJobs() {
+      if (this.search) {
+        const term = this.search.toLowerCase();
+        return this.jobs.filter((job: Job) => {
+          return job.title.toLowerCase().indexOf(term) !== -1 ||
+              job.company.toLowerCase().indexOf(term) !== -1 ||
+              job.description.toLowerCase().indexOf(term) !== -1
+        });
+      }
+      return this.jobs;
+    }
+
     get sortedJobs() {
-      const jobCopy = this.jobs.slice(0);
+      const jobCopy = this.filteredJobs.slice(0);
       const direction = this.sort.asc ? 1 : -1;
       jobCopy.sort((a: Job, b: Job) => {
         if (this.sort.by === 'createdAt') {
@@ -96,7 +124,7 @@ export default class JobBrowser extends Vue {
     }
 
     get pages(): number {
-      return Math.ceil(this.jobs.length / this.perPage);
+      return Math.ceil(this.sortedJobs.length / this.perPage);
     }
 
     created() {
@@ -105,14 +133,23 @@ export default class JobBrowser extends Vue {
 
     fetch() {
       this.loadError = false;
+      this.loading = true;
       axios.get(sourceUrl)
         .then((response) => {
           this.jobs = EntityBuilder.buildMany<Job>(Job, response.data.response.docs);
+          this.loading = false;
         })
         .catch((response) => {
-          console.log(response);
           this.loadError = true;
+          this.loading = false;
         });
+    }
+
+    @Watch('sortedJobs')
+    adjustPagination() {
+      if (this.page > this.pages) {
+        this.page = this.pages;
+      }
     }
 }
 </script>

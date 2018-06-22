@@ -1,5 +1,5 @@
 <template>
-  <div class="sorter text-grey text-sm">
+  <div class="sorter py-2 text-grey text-sm">
     <span class="uppercase text-black font-bold mr-2">SORT BY</span>
     <span class="sorter__option" role="button"
           @click="sortBy('title')"
