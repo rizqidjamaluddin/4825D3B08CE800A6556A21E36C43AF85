@@ -33,8 +33,10 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 
+export type SortOrderBy = 'title'|'company'|'createdAt';
+
 export interface SortOrder {
-    by: 'title'|'company'|'createdAt'
+    by: SortOrderBy
     asc: boolean
   }
 

@@ -66,12 +66,13 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import { EntityBuilder } from '@decahedron/entity';
 import axios from 'axios';
 import smoothHeight from 'vue-smooth-height';
+import { Route } from 'vue-router';
 import Job from '../../entities/job';
 
 import LoadIndicator from './support/LoadIndicator.vue';
 import BrowserPaginator from './support/BrowserPaginator.vue';
 import BrowserSearch from './support/BrowserSearch.vue';
-import BrowserSorter, { SortOrder } from './support/BrowserSorter.vue';
+import BrowserSorter, { SortOrder, SortOrderBy } from './support/BrowserSorter.vue';
 
 const sourceUrl = 'https://paikat.te-palvelut.fi/tpt-api/tyopaikat?englanti=true';
 
@@ -167,8 +168,9 @@ export default class JobBrowser extends Vue {
         .then((response) => {
           this.jobs = EntityBuilder.buildMany<Job>(Job, response.data.response.docs);
           this.loading = false;
+          this.updateParams(this.$route, this.$route);
         })
-        .catch((response) => {
+        .catch(() => {
           this.loadError = true;
           this.loading = false;
         });
@@ -178,6 +180,7 @@ export default class JobBrowser extends Vue {
      * Ensure active page is within valid page range.
      */
     @Watch('sortedJobs')
+    @Watch('page')
     adjustPagination() {
       if (this.page > this.pages) {
         this.page = this.pages;
@@ -195,6 +198,47 @@ export default class JobBrowser extends Vue {
         el: this.$refs.container,
         hideOverflow: true,
         transition: 'height 0.2s',
+      });
+    }
+
+  /**
+   * Upon route changes, update the browser to match route query params. Vue doesn't fire updates
+   * on properties that don't change values, so we don't wind up in an infinite loop. With
+   * the watcher below.
+   * @param {Route} to
+   * @param {Route} from
+   */
+    @Watch('$route')
+    updateParams(to: Route, from: Route) {
+      if ('page' in to.query) {
+        this.page = parseInt(to.query.page, 10);
+      }
+      if ('search' in to.query) {
+        this.search = to.query.search;
+      }
+      if ('sort-by' in to.query) {
+        this.sort.by = (to.query['sort-by'] as SortOrderBy);
+      }
+      if ('sort-dir' in to.query) {
+        this.sort.asc = to.query['sort-dir'] === 'asc';
+      }
+    }
+
+  /**
+   * Update route query params whenever a browser option changes.
+   */
+    @Watch('search')
+    @Watch('sort')
+    @Watch('page')
+    syncToUrl() {
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          search: this.search,
+          page: this.page.toString(),
+          'sort-by': this.sort.by,
+          'sort-dir': this.sort.asc ? 'asc' : 'desc',
+        },
       });
     }
 }

@@ -17,7 +17,7 @@
 ## 0.1 - Statefulness
 
 - [ ] Show job details in separate route
-- [ ] Persist search queries, sort and page in URL
+- [x] Persist search queries, sort and page in URL
 - [x] Add mobile responsive support
 
 ## 0.2 - Details
@@ -35,7 +35,15 @@
 
 ## 0.3 - Reusability
 
-- [ ] Abstract out loading/error components in job grid
+- [x] Abstract out loading/error components in job grid
 - [x] Convert job grid loop to a functional component
 - [ ] Abstract grid sorting and searching to services
 - [ ] Consider using Vuex as primary data store
+
+## Dev Notes
+
+- There are errors bubbling up regarding Route being exported from vue-router. Known issue.
+[VueJS issue here.](https://github.com/vuejs/vue-cli/issues/1498#issuecomment-395461425)
+- IDEs may get an error regarding `RawLocation` in `$router.push` arguments. Known issue that
+is fixed in vue-router, but not yet tagged for release. 
+[Vue-router issue here.](https://github.com/vuejs/vue-router/issues/1932)
