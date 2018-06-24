@@ -1,15 +1,6 @@
-<template>
+<template functional>
   <div class="spinner"></div>
 </template>
-
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-
-@Component({})
-export default class LoadIndicator extends Vue {
-}
-</script>
-
 <style lang="scss" scoped>
 
   /**
