@@ -18,7 +18,7 @@
 
 - [ ] Show job details in separate route
 - [ ] Persist search queries, sort and page in URL
-- [ ] Add mobile responsive support
+- [x] Add mobile responsive support
 
 ## 0.2 - Details
 
@@ -36,6 +36,6 @@
 ## 0.3 - Reusability
 
 - [ ] Abstract out loading/error components in job grid
-- [ ] Convert job grid loop to a functional component
+- [x] Convert job grid loop to a functional component
 - [ ] Abstract grid sorting and searching to services
 - [ ] Consider using Vuex as primary data store

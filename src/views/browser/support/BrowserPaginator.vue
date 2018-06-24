@@ -104,19 +104,58 @@ export default class BrowserPaginator extends Vue {
   }
 
   .paginator__option--current {
-    @apply .bg-ash .text-solid;
+    @apply .text-solid;
+    position: relative;
+
+    &::before {
+      @apply .bg-ash;
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+      transform: skew(-20deg);
+    }
   }
 
   .paginator__option--clickable {
     @apply .cursor-pointer;
-    transition: 0.05s all;
+    transition: 0.05s all, 0.1s background-color;
+    position: relative;
 
     &:hover {
-      @apply .bg-green .text-white;
+      @apply .text-white;
+
+      &::before {
+        @apply .bg-green;
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+        transform: skew(-20deg);
+      }
     }
 
     &:active {
-      @apply .bg-blue;
+      &::before {
+        @apply .bg-blue;
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+        transform: skew(-20deg);
+      }
     }
   }
 </style>

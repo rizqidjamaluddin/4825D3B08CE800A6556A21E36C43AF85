@@ -6,21 +6,21 @@
           :class="{ active: sort.by === 'title' }">
       Title
       <template v-if="sort.by === 'title'">
-        <span v-if="sort.asc">&uarr;</span>
-        <span v-if="!sort.asc">&darr;</span>
+        <span v-if="sort.asc">&#11014;</span>
+        <span v-if="!sort.asc">&#11015;</span>
       </template>
     </span>
-    /
+
     <span class="sorter__option" role="button"
           @click="sortBy('company')"
           :class="{ active: sort.by === 'company' }">
       Company
       <template v-if="sort.by === 'company'">
-        <span v-if="sort.asc">&uarr;</span>
-        <span v-if="!sort.asc">&darr;</span>
+        <span v-if="sort.asc">&#11014;</span>
+        <span v-if="!sort.asc">&#11015;</span>
       </template>
     </span>
-    /
+
     <span class="sorter__option" role="button"
           @click="sortBy('createdAt')"
           :class="{ active: sort.by === 'createdAt' }">
@@ -67,14 +67,63 @@ export default class BrowserSorter extends Vue {
   @tailwind utilities;
 
   .active {
-    @apply .text-black .font-bold;
+    @apply .text-black .font-bold .px-2;
+    position: relative;
+    &::before {
+      @apply .bg-ash;
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+      transform: skew(-20deg);
+    }
   }
 
   .sorter__option {
-    @apply .px-1 .py-1 .mx-1 .cursor-pointer;
+    @apply .px-2 .py-1 .mx-2 .cursor-pointer;
+    position: relative;
+    transition: 0.05s all, 0.1s background-color;
+
+    &::before {
+      transition: 0.05s all, 0.1s background-color;
+    }
 
     &:hover {
-      @apply .bg-green .text-white;
+      @apply .text-white;
+
+      &::before {
+        @apply .bg-green;
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+        transform: skew(-20deg);
+      }
+    }
+
+    &:active {
+      @apply .text-white;
+
+      &::before {
+        @apply .bg-blue;
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+        transform: skew(-20deg);
+      }
     }
   }
 </style>

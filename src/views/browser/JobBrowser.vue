@@ -2,11 +2,19 @@
   <div class="job-browser mx-auto">
 
     <div class="md:flex ml-8 md:ml-0 content-center justify-between">
+      <div class="mb-2">
         <BrowserSorter v-if="jobs.length > 0" v-model="sort"></BrowserSorter>
+      </div>
+      <div class="mb-2">
         <BrowserSearch v-if="jobs.length > 0" v-model="search"></BrowserSearch>
+      </div>
     </div>
 
-    <div class="job-grid border border-ash my-8 w-full">
+    <div class="mt-6">
+      <BrowserPaginator v-if="jobs.length > 0" v-model="page" :pages="pages"></BrowserPaginator>
+    </div>
+
+    <div class="job-grid border border-ash my-4 w-full" ref="container">
       <div class="job-grid__loading text-center" v-if="loading">
         <div>
           <LoadIndicator></LoadIndicator>
@@ -57,7 +65,9 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { EntityBuilder } from '@decahedron/entity';
 import axios from 'axios';
+import smoothHeight from 'vue-smooth-height';
 import Job from '../../entities/job';
+
 import LoadIndicator from './support/LoadIndicator.vue';
 import BrowserPaginator from './support/BrowserPaginator.vue';
 import BrowserSearch from './support/BrowserSearch.vue';
@@ -72,8 +82,12 @@ const sourceUrl = 'https://paikat.te-palvelut.fi/tpt-api/tyopaikat?englanti=true
   BrowserSorter,
   BrowserSearch,
   },
+  mixins: [smoothHeight],
   })
 export default class JobBrowser extends Vue {
+    // typing hint for vue-smooth-height
+    $smoothElement: any;
+
     jobs: Job[] = [];
     loadError = false;
     loading = false;
@@ -87,26 +101,26 @@ export default class JobBrowser extends Vue {
       asc: true,
     };
 
-  /**
-   * Filter full job corpus to those matching the current query.
-   * First step of the filtering process.
-   * @returns {Job[]}
-   */
+    /**
+     * Filter full job corpus to those matching the current query.
+     * First step of the filtering process.
+     * @returns {Job[]}
+     */
     get filteredJobs() {
       if (this.search) {
         const term = this.search.toLowerCase();
         return this.jobs.filter((job: Job) => job.title.toLowerCase().indexOf(term) !== -1 ||
-              job.company.toLowerCase().indexOf(term) !== -1 ||
-              job.description.toLowerCase().indexOf(term) !== -1);
+          job.company.toLowerCase().indexOf(term) !== -1 ||
+          job.description.toLowerCase().indexOf(term) !== -1);
       }
       return this.jobs;
     }
 
-  /**
-   * Rearrange search-filtered jobs to sorting rules..
-   * Second, and final step of the filtering process.
-   * @returns {Job[]}
-   */
+    /**
+     * Rearrange search-filtered jobs to sorting rules..
+     * Second, and final step of the filtering process.
+     * @returns {Job[]}
+     */
     get sortedJobs() {
       const jobCopy = this.filteredJobs.slice(0);
       const direction = this.sort.asc ? 1 : -1;
@@ -122,19 +136,19 @@ export default class JobBrowser extends Vue {
       return jobCopy;
     }
 
-  /**
-   * Extract current page of jobs from filtered & sorted jobs.
-   * @returns {Job[]}
-   */
+    /**
+     * Extract current page of jobs from filtered & sorted jobs.
+     * @returns {Job[]}
+     */
     get displayedJobs(): Job[] {
       const start = (this.page - 1) * this.perPage;
       return this.sortedJobs.slice(start, (start) + this.perPage);
     }
 
-  /**
-   * Total number of pages, after searching.
-   * @returns {number}
-   */
+    /**
+     * Total number of pages, after searching.
+     * @returns {number}
+     */
     get pages(): number {
       return Math.ceil(this.sortedJobs.length / this.perPage);
     }
@@ -143,9 +157,9 @@ export default class JobBrowser extends Vue {
       this.fetch();
     }
 
-  /**
-   * Pull down job data from source server.
-   */
+    /**
+     * Pull down job data from source server.
+     */
     fetch() {
       this.loadError = false;
       this.loading = true;
@@ -160,9 +174,9 @@ export default class JobBrowser extends Vue {
         });
     }
 
-  /**
-   * Ensure active page is within valid page range.
-   */
+    /**
+     * Ensure active page is within valid page range.
+     */
     @Watch('sortedJobs')
     adjustPagination() {
       if (this.page > this.pages) {
@@ -171,6 +185,17 @@ export default class JobBrowser extends Vue {
       if (this.page < 1) {
         this.page = 1;
       }
+    }
+
+    /**
+     * Register smooth height transition container.
+     */
+    mounted() {
+      this.$smoothElement({
+        el: this.$refs.container,
+        hideOverflow: true,
+        transition: 'height 0.2s',
+      });
     }
 }
 </script>
