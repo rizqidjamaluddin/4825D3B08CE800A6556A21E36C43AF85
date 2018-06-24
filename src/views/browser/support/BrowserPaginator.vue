@@ -9,7 +9,8 @@
     <div class="paginator__option" v-show="!showFirst"></div>
 
     <!-- Gap between first page and previous -->
-    <div class="paginator__option" v-show="showFirstGap">...</div>
+    <div class="paginator__option paginator__option--gap"
+         v-show="showFirstGap">...</div>
 
     <!-- Previous page -->
     <div class="paginator__option paginator__option--clickable" role="button"
@@ -29,7 +30,8 @@
     <div class="paginator__option" v-show="!showNext"></div>
 
     <!-- Gap between next page and last -->
-    <div class="paginator__option" v-show="showLastGap">...</div>
+    <div class="paginator__option paginator__option--gap"
+         v-show="showLastGap">...</div>
 
     <!-- Last page, only shown when != next page -->
     <div class="paginator__option paginator__option--clickable" role="button"
@@ -95,6 +97,10 @@ export default class BrowserPaginator extends Vue {
     @apply .inline-block .py-2 .mx-2 .font-bold .text-grey;
     width: 40px;
     text-align: center;
+  }
+
+  .paginator__option--gap {
+    @apply .text-ash;
   }
 
   .paginator__option--current {
