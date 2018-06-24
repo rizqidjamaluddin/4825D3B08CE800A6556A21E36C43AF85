@@ -59,9 +59,9 @@ import { EntityBuilder } from '@decahedron/entity';
 import axios from 'axios';
 import Job from '../../entities/job';
 import LoadIndicator from './support/LoadIndicator.vue';
-import BrowserPaginator from './BrowserPaginator.vue';
-import BrowserSearch from './BrowserSearch.vue';
-import BrowserSorter, { SortOrder } from './BrowserSorter.vue';
+import BrowserPaginator from './support/BrowserPaginator.vue';
+import BrowserSearch from './support/BrowserSearch.vue';
+import BrowserSorter, { SortOrder } from './support/BrowserSorter.vue';
 
 const sourceUrl = 'https://paikat.te-palvelut.fi/tpt-api/tyopaikat?englanti=true';
 
