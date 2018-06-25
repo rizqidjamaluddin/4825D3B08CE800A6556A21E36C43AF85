@@ -123,8 +123,8 @@ export default class JobBrowser extends Vue {
     page = 1;
     search = '';
     sort: SortOrder = {
-      by: 'title',
-      asc: true,
+      by: 'createdAt',
+      asc: false,
     };
     selected: Job|null = null;
 
@@ -156,7 +156,7 @@ export default class JobBrowser extends Vue {
           if (!a.createdAt || !b.createdAt) {
             return 0;
           }
-          return (b.createdAt.valueOf() - a.createdAt.valueOf()) * direction;
+          return (a.createdAt.valueOf() - b.createdAt.valueOf()) * direction;
         }
         return a[this.sort.by].localeCompare(b[this.sort.by]) * direction;
       });
