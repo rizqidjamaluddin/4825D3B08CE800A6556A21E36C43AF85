@@ -6,14 +6,18 @@
     :value="search" placeholder="Find a job">
     <div class="clear absolute p-2 cursor-pointer" @click="clear()"
          v-bind:class="{'text-ash': !search, 'text-black': search}">
-      &#x2716;
+      <CrossIcon></CrossIcon>
     </div>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
+import CrossIcon from '../../shared/icons/CrossIcon.vue';
 
 @Component({
+  components: {
+  CrossIcon,
+  },
   model: {
   prop: 'search',
   event: 'update:search'
@@ -32,6 +36,8 @@ export default class BrowserSearch extends Vue {
 }
 </script>
 <style lang="scss">
+  @tailwind utilities;
+
   .search {
     position: relative;
     top: -1.5px;
@@ -42,5 +48,9 @@ export default class BrowserSearch extends Vue {
     right: 5px;
     // 1 extra pixel bump to compensate for the search box border
     top: 1px;
+
+    .embed-icon {
+      fill: config('colors.grey');
+    }
   }
 </style>

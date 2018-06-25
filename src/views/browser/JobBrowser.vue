@@ -31,7 +31,7 @@
 
       <!-- Back (Detail mode) -->
       <div v-if="selected" class="job-grid__deselect mt-12" @click="deselect()">
-        &#11013; Back
+        <LeftArrowIcon></LeftArrowIcon> Back
       </div>
 
       <!-- Grid -->
@@ -96,6 +96,7 @@ import LoadIndicator from './support/LoadIndicator.vue';
 import BrowserPaginator from './support/BrowserPaginator.vue';
 import BrowserSearch from './support/BrowserSearch.vue';
 import BrowserSorter, { SortOrder, SortOrderBy } from './support/BrowserSorter.vue';
+import LeftArrowIcon from '../shared/icons/LeftArrowIcon.vue';
 
 const sourceUrl = 'https://paikat.te-palvelut.fi/tpt-api/tyopaikat?englanti=true';
 
@@ -105,6 +106,7 @@ const sourceUrl = 'https://paikat.te-palvelut.fi/tpt-api/tyopaikat?englanti=true
   BrowserPaginator,
   BrowserSorter,
   BrowserSearch,
+  LeftArrowIcon,
   },
   mixins: [smoothHeight],
   })
@@ -291,7 +293,7 @@ export default class JobBrowser extends Vue {
   /**
    * Return to main browser while viewing a job detail.
    */
-  deselect() {
+    deselect() {
       this.$router.push({
         name: 'browse',
         query: Object.assign({}, this.$route.query),
@@ -346,22 +348,22 @@ export default class JobBrowser extends Vue {
   .job-grid__item {
     padding-left: 15px;
     transition: 0.2s all;
-    border-left: 0 solid #7065bb;
+    border-left: 0 solid config('colors.blue');
   }
 
   .job-grid__item:hover {
     padding-left: 5px;
-    border-left: 10px solid #56ae6c;
+    border-left: 10px solid config('colors.green');
   }
 
   .job-grid__item--selected {
     /*@apply: .bg-soft;*/
     padding-left: 5px;
-    border-left: 10px solid #b65090;
+    border-left: 10px solid config('colors.purple');
 
     &:hover {
       padding-left: 5px;
-      border-left: 10px solid #b65090;
+      border-left: 10px solid config('colors.purple');
     }
   }
 
@@ -371,9 +373,15 @@ export default class JobBrowser extends Vue {
 
     &:hover {
       @apply .bg-green .text-white;
+      .embed-icon {
+        fill: config('colors.white');
+      }
     }
     &:active {
       @apply .bg-blue .text-white;
+      .embed-icon {
+        fill: config('colors.white');
+      }
     }
   }
 </style>

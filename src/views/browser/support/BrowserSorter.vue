@@ -6,8 +6,8 @@
           :class="{ active: sort.by === 'title' }">
       Title
       <template v-if="sort.by === 'title'">
-        <span v-if="sort.asc">&#11014;</span>
-        <span v-if="!sort.asc">&#11015;</span>
+        <span v-if="sort.asc"><UpArrowIcon></UpArrowIcon></span>
+        <span v-if="!sort.asc"><DownArrowIcon></DownArrowIcon></span>
       </template>
     </span>
 
@@ -16,22 +16,27 @@
           :class="{ active: sort.by === 'company' }">
       Company
       <template v-if="sort.by === 'company'">
-        <span v-if="sort.asc">&#11014;</span>
-        <span v-if="!sort.asc">&#11015;</span>
+        <span v-if="sort.asc"><UpArrowIcon></UpArrowIcon></span>
+        <span v-if="!sort.asc"><DownArrowIcon></DownArrowIcon></span>
       </template>
     </span>
 
     <span class="sorter__option" role="button"
           @click="sortBy('createdAt')"
           :class="{ active: sort.by === 'createdAt' }">
-      <span v-if="sort.asc">Newest</span>
-      <span v-if="!sort.asc">Oldest</span>
+      Date
+      <template v-if="sort.by === 'createdAt'">
+        <span v-if="sort.asc"><UpArrowIcon></UpArrowIcon></span>
+        <span v-if="!sort.asc"><DownArrowIcon></DownArrowIcon></span>
+      </template>
     </span>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
+import UpArrowIcon from '../../shared/icons/UpArrowIcon.vue';
+import DownArrowIcon from '../../shared/icons/DownArrowIcon.vue';
 
 export type SortOrderBy = 'title'|'company'|'createdAt';
 
@@ -41,6 +46,10 @@ export interface SortOrder {
   }
 
 @Component({
+  components: {
+  UpArrowIcon,
+  DownArrowIcon,
+  },
   model: {
   prop: 'sort',
   event: 'update:sort'
@@ -71,6 +80,11 @@ export default class BrowserSorter extends Vue {
   .active {
     @apply .text-black .font-bold .px-2;
     position: relative;
+
+    .embed-icon {
+      fill: config('colors.black');
+    }
+
     &::before {
       @apply .bg-ash;
       content: "";
@@ -96,6 +110,10 @@ export default class BrowserSorter extends Vue {
 
     &:hover {
       @apply .text-white;
+
+      .embed-icon {
+        fill: white;
+      }
 
       &::before {
         @apply .bg-green;

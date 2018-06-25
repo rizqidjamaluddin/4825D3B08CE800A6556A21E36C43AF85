@@ -3,7 +3,9 @@
     <h1 class="text-xl mb-1 leading-normal text-purple">{{ job.title }}</h1>
     <div class="mb-2">
       <span class="text-sm leading-normal mr-2">{{ job.company }}</span>
-      <span class="text-sm uppercase leading-normal text-grey">{{ job.createdAt.format('D MMM YY') }}</span>
+      <span class="text-sm uppercase leading-normal text-grey">
+        {{ job.createdAt.format('D MMM YY') }}
+      </span>
     </div>
     <img :src="mapUrl" v-if="mapUrl" class="mt-6" style="max-width: 100%;" />
     <div v-html="formattedDescription" class="text-sm leading-loose mt-6"></div>
