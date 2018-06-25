@@ -118,7 +118,7 @@ export default class JobBrowser extends Vue {
     loadError = false;
     loading = false;
 
-    perPage = 10;
+    perPage = 7;
 
     page = 1;
     search = '';
