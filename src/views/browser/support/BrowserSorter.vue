@@ -77,7 +77,7 @@ export default class BrowserSorter extends Vue {
 <style lang="scss" scoped>
   @tailwind utilities;
 
-  .active {
+  .sorter__option.active {
     @apply .text-black .font-bold .px-2;
     position: relative;
 
@@ -87,15 +87,6 @@ export default class BrowserSorter extends Vue {
 
     &::before {
       @apply .bg-ash;
-      content: "";
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: -1;
-      transform: skew(-20deg);
     }
   }
 
@@ -105,6 +96,16 @@ export default class BrowserSorter extends Vue {
     transition: 0.05s all, 0.1s background-color;
 
     &::before {
+      @apply .bg-white;
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+      transform: skew(-20deg);
       transition: 0.05s all, 0.1s background-color;
     }
 
@@ -117,15 +118,6 @@ export default class BrowserSorter extends Vue {
 
       &::before {
         @apply .bg-green;
-        content: "";
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: -1;
-        transform: skew(-20deg);
       }
     }
 
@@ -134,15 +126,6 @@ export default class BrowserSorter extends Vue {
 
       &::before {
         @apply .bg-blue;
-        content: "";
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: -1;
-        transform: skew(-20deg);
       }
     }
   }
