@@ -14,6 +14,13 @@ export default class Job extends Entity {
   @Type(String, 'sijainti')
   public coordinates = '';
 
+  @Type(String, 'kunta')
+  public municipality = '';
+  @Type(String, 'maakunta')
+  public province = '';
+  @Type(String, 'maa')
+  public country = '';
+
   fromJson(jsonData: any): this {
     super.fromJson(jsonData);
 
