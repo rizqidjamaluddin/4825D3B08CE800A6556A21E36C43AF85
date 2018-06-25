@@ -1,7 +1,16 @@
 # Quickstart
 
-- **Dev server:** `yarn serve`
-- **Build:** `yarn build`
+Installation:
+- `yarn install`
+- `yarn serve`
+
+To lint: `yarn lint`
+
+To build: `yarn build`
+
+In order to display maps when viewing a job, you need a Google Cloud API key. Copy `.env.example` to `.env` and place
+your key under `VUE_APP_GOOGLE_MAP_KEY`. If using the local development server (`yarn serve`), restart the server after
+editing the env file.
 
 # To-Do
 
@@ -16,14 +25,14 @@
 
 ## 0.1 - Statefulness
 
-- [ ] Show job details in separate route
+- [x] Show job details in separate route
 - [x] Persist search queries, sort and page in URL
 - [x] Add mobile responsive support
 
 ## 0.2 - Details
 
 - [ ] Add up/down/back buttons when viewing a job detail
-- [ ] Add enhanced map UI in job detail
+- [x] Add enhanced map UI in job detail
 - [ ] Add enhanced search UI to display matching terms inline
 - [ ] Add icons and labels/tags for other flags provided from API data
 - [ ] Enable search by job ID
@@ -47,3 +56,9 @@
 - IDEs may get an error regarding `RawLocation` in `$router.push` arguments. Known issue that
 is fixed in vue-router, but not yet tagged for release. 
 [Vue-router issue here.](https://github.com/vuejs/vue-router/issues/1932)
+
+## Security
+
+- We assume the source data is HTML entity escaped. Normally we can't make this
+assumption, but data coming in so far would suggest it. We do attempt a v-html
+on this data.

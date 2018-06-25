@@ -11,6 +11,8 @@ export default class Job extends Entity {
   public description = '';
   @Type(String, 'tyonantajanNimi')
   public company = '';
+  @Type(String, 'sijainti')
+  public coordinates = '';
 
   fromJson(jsonData: any): this {
     super.fromJson(jsonData);
