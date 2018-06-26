@@ -49,8 +49,14 @@ editing the env file.
 - [ ] Abstract grid sorting and searching to services
 - [ ] Consider using Vuex as primary data store
 
-## Dev Notes
+## Known Issues
 
+- When switching between job details while on a narrow screen, and then enlarging to a wider
+viewport, the job browser will be empty. This is a limitation of the vue-smooth-height plugin,
+which incorrectly assumes a height of zero (due to being hidden) and does not update because
+it waits for vue update ticks. Would need to listen to browser resize events and manually fire
+updates, or hide using alternate methods instead. For now, simply clicking "back" will
+restore the browser.
 - There are errors bubbling up regarding Route being exported from vue-router. Known issue.
 [VueJS issue here.](https://github.com/vuejs/vue-cli/issues/1498#issuecomment-395461425)
 - IDEs may get an error regarding `RawLocation` in `$router.push` arguments. Known issue that

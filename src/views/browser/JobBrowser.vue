@@ -1,5 +1,5 @@
 <template>
-  <div class="job-browser mx-auto flex">
+  <div class="job-browser mx-auto md:flex">
 
     <div class="job-grid__loading text-center" v-if="loading">
       <div>
@@ -10,7 +10,8 @@
       </div>
     </div>
 
-    <div class="selector" :class="{collapsed: selected}" v-show="!loading">
+    <div class="selector" :class="{'md:collapsed': selected, 'lt-md:mb-12': selected}"
+         v-show="!loading">
 
       <!-- Sort & search -->
       <transition name="slide-up">
@@ -35,7 +36,8 @@
       </div>
 
       <!-- Grid -->
-      <div class="job-grid border border-ash my-4 w-full" ref="container">
+      <div class="job-grid border border-ash my-4 w-full" ref="container"
+        :class="{'lt-md:hidden': selected}">
         <div class="job-grid__error text-center" v-if="loadError">
           <div>
             <p class="mb-2">Unable to access job database &mdash; it might be down.</p>
@@ -70,13 +72,11 @@
       </div>
 
       <!-- Bottom paginator -->
-      <transition name="slide-up">
-        <BrowserPaginator v-if="!selected && jobs.length > 0" v-model="page" :pages="pages">
-        </BrowserPaginator>
-      </transition>
+      <BrowserPaginator v-if="!selected && jobs.length > 0" v-model="page" :pages="pages">
+      </BrowserPaginator>
     </div>
 
-    <div class="detail-panel ml-8" v-if="!loading">
+    <div class="detail-panel mx-4" v-if="!loading">
       <transition name="slide-right">
         <router-view :job="selected"></router-view>
       </transition>
@@ -307,19 +307,20 @@ export default class JobBrowser extends Vue {
 
   .job-browser {
     margin-top: 100px;
-    max-width: 800px;
+    max-width: 960px;
   }
 
   .selector {
     transition: 0.2s all;
-    max-width: 800px;
     width: 100%;
   }
 
-  .collapsed {
-    max-width: 300px;
-    min-width: 300px;
+  @responsive {
+    .collapsed {
+      max-width: 300px;
+      min-width: 300px;
 
+    }
   }
 
   .job-grid {
@@ -347,6 +348,7 @@ export default class JobBrowser extends Vue {
 
   .job-grid__item {
     padding-left: 15px;
+    padding-right: 10px;
     transition: 0.2s all;
     border-left: 0 solid config('colors.blue');
   }
