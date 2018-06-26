@@ -12,7 +12,12 @@
         {{ location }}
       </div>
     </div>
-    <img :src="mapUrl" v-if="mapUrl" class="mt-6" style="max-width: 100%;" />
+    <div v-if="mapUrl" class="mt-6">
+      <a :href="mapLinkUrl" class="block">
+        <img :src="mapUrl"  style="max-width: 100%;" />
+      </a>
+    </div>
+
     <div v-html="formattedDescription" class="text-sm leading-loose mt-6"></div>
   </div>
 </template>
@@ -62,6 +67,10 @@ export default class JobDetail extends Vue {
       };
       const params = Object.keys(config).map(k => `${encodeURIComponent(k)}=${encodeURIComponent(config[k])}`).join('&');
       return `https://maps.googleapis.com/maps/api/staticmap?${params}`;
+    }
+
+    get mapLinkUrl() {
+      return `http://www.google.com/maps/place/${this.job.coordinates}`;
     }
 }
 </script>
