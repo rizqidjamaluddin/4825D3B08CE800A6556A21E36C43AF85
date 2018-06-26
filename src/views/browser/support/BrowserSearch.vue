@@ -1,12 +1,15 @@
 <template>
   <div class="search text-sm relative">
     <span class="uppercase text-black font-bold mr-2">Search</span>
-    <input type="text" @input="update($event.target.value)"
-    class="text-blue p-2 border border-ash rounded"
-    :value="search" placeholder="Find a job">
-    <div class="clear absolute p-2 cursor-pointer" @click="clear()"
-         v-bind:class="{'text-ash': !search, 'text-black': search}">
-      <CrossIcon></CrossIcon>
+    <div class="w-48 inline-block relative">
+
+      <input type="text" @input="update($event.target.value)"
+      class="text-blue p-2 border border-ash rounded w-full"
+             :value="search" placeholder="Find a job">
+      <div class="clear absolute p-2 cursor-pointer" @click="clear()"
+           v-bind:class="{'text-ash': !search, 'text-black': search}">
+        <CrossIcon></CrossIcon>
+      </div>
     </div>
   </div>
 </template>
